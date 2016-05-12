@@ -21,7 +21,7 @@ class MakerSeed extends Seeder {
             Maker::create([
 
                 'name'=>$faker->word(),
-                'phone'=>$faker->randomDigit(8),
+                'phone'=>$faker->randomNumber(8),
             ]);
 
         }

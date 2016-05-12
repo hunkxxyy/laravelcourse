@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Maker;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,7 +16,12 @@ class MakerController extends Controller
      */
     public function index()
     {
-        //
+       /* a maker model össze eleme belekerül*/
+        $makers=Maker::all();
+        /*jasonba visszaküldjük, találat esetén 200-ok koddal térjen vissza*/
+       //return response()->json($makers,200);
+        /*ezeket e data változoban tároljuk*/
+        return response()->json(['data'=>$makers],200);
     }
 
 
@@ -39,7 +45,13 @@ class MakerController extends Controller
      */
     public function show($id)
     {
-        //
+        /*itt megadhatunk egy hiba üzenetet ha nincs találat, az elv ua. ltrehozzuk az array
+        és jsonná alakítjuk, majd hozzáfüzzük a 404 http error codot*
+        404 not foundot jelen
+        */
+        $maker=Maker::find($id);
+        if (!$maker) return response()->json(['message'=>'nics ilyen','errorcode'=>'404'],404);
+        return response()->json(['data'=>$maker],200);
     }
 
 
