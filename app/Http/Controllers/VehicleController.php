@@ -13,4 +13,8 @@ class VehicleController extends Controller
         $vehicle=Vehicle::all();
         return response()->json(['data'=>$vehicle],200);
     }
+    public function show($serie){
+        $vehicle=Vehicle::all()->find($serie);
+        return response()->json(['data'=>$vehicle],200);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Maker;
+use App\Vehicle;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,9 +15,22 @@ class MakerVehiclesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+
+        $maker=Maker::find($id);
+        if (!$maker) return response()->json(['message'=>'nics ilyen','errorcode'=>'404'],404);
+      /*  itt beolvassa a maker összes járművét miért?
+        $maker->vehicles van a Maker modelben egy ilyen fügvény
+             public function vehicles()
+            {
+
+                return $this->hasMany('App\Vehicle');
+             }
+        ez felelős a kapcslatért
+        */
+
+        return response()->json(['data'=>$maker->vehicles],200);
     }
 
 
@@ -36,9 +51,13 @@ class MakerVehiclesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $vehicleId)
     {
-        //
+        $maker=Maker::find($id);
+
+        $vehicle=$maker->vehicles->find($vehicleId);
+        if ($vehicle) return response()->json(['message'=>'nics ilyen','errorcode'=>'404'],404);
+        return response()->json(['data'=>$vehicle],200);
     }
 
 

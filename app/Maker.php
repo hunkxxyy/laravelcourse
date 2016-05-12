@@ -9,8 +9,9 @@ class Maker extends Model {
     protected $fillable=['name','phone'];
     protected $hidden=['id','created_at','updated_at'];
 
-    public function vehicle()
+    public function vehicles()
     {
-        return $this->hasMany('App\Vehicles');
+
+        return $this->hasMany('App\Vehicle');
     }
 }
