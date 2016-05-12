@@ -6,7 +6,7 @@ use App\Maker;
 use App\Vehicle;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use App\Http\Requests\CreateVehicleRequest;
 
 class MakerVehiclesController extends Controller
 {
@@ -40,9 +40,15 @@ class MakerVehiclesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(CreateVehicleRequest $request, $makerId){
+         $maker=Maker::find($makerId);
+         if (!$maker)
+             return response()->json(['message'=>'Nincs ilyen maker']);
+
+         $values=$request->all();
+         $maker->vehicles()->create($values);
+        return response()->json(['messages'=>'The viechle assocviated was crreted'],201);
+
     }
 
     /**
@@ -54,9 +60,9 @@ class MakerVehiclesController extends Controller
     public function show($id, $vehicleId)
     {
         $maker=Maker::find($id);
+        if (!$maker) return response()->json(['message'=>'nics ilyen','errorcode'=>'404'],404);
+        $vehicle=$maker->vehicles;
 
-        $vehicle=$maker->vehicles->find($vehicleId);
-        if ($vehicle) return response()->json(['message'=>'nics ilyen','errorcode'=>'404'],404);
         return response()->json(['data'=>$vehicle],200);
     }
 

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Maker;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+
+use App\Http\Requests\CreateMakerRequest;
 
 class MakerController extends Controller
 {
@@ -26,15 +27,15 @@ class MakerController extends Controller
 
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    /*használom ellenőrzéshez a CreateMakerRequest -et*/
+    //public function store(Request $request)
+    public function store(CreateMakerRequest $request)
+
     {
-        //
+        $values=$request->only(['name','phone']);
+       Maker::create($values);
+        return response()->json(['messge'=>'Sikeres post'],201);
+
     }
 
     /**
